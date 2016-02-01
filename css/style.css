@@ -1,8 +1,8 @@
 body {
     text-align: center;
-    text-color: darkgreen;
+    color: darkgreen;
     font-style: oblique;
-    font-family: "Tempus Sans ITC";
+    font-family: "Tempus Sans ITC", serif;
 }
 h3 {
     align-content: center;
