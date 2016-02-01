@@ -33,21 +33,22 @@ Enemy.prototype.render = function() {
 //collisionDetection checks if player has hit an enemy. The 50 px allows the player to get PRETTY close, but it's obvious when overlapping occurs the player "dies"
 var collisionDetect = function(enemyObj) {
     if ((player.x <= enemyObj.x + 50 && player.x >= enemyObj.x - 50) && (player.y <= enemyObj.y + 50 && player.y >= enemyObj.y - 50)) {
-        player = new Player(200, 425, 0);
+        player = new Player(200, 425, mainChar);
         scoreDec(25);
         document.getElementById("score").innerHTML = "You got run over by a bug! -25!";
     }
 };
 
 //Player class copied from enemy.
-var Player = function(x, y) {
+var Player = function(x, y, mainChar) {
 
     this.x = x;
     this.y = y;
 
-    this.sprite = 'images/char-boy.png';
+    this.sprite = mainChar;
 
 };
+
 
 //renders the player.
 Player.prototype.render = function() {
@@ -118,7 +119,7 @@ var boundsDetect = function(varPlayer) {
     if (varPlayer.x > 495 || varPlayer.x < 0 || varPlayer.y > 500 || varPlayer.y < -100) {
         document.getElementById("info").innerHTML = "Out of Bounds! - 5!";
         scoreDec(5);
-        player = new Player(200, 425);
+        player = new Player(200, 425, mainChar);
     }
 };
 
@@ -127,9 +128,48 @@ var checkWin = function(varPlayer) {
     if (varPlayer.y > -100 && varPlayer.y < 0) {
         scoreInc(50);
         document.getElementById("info").innerHTML = "You win! + 50!";
-        player = new Player(200, 425);
+        player = new Player(200, 425, mainChar);
     }
 };
+
+//document.getElementById("char").onclick = function(){changeChar()};
+
+function changeChar() {
+
+    counter++;
+    console.log(counter);
+    switch (counter % 3) {
+       /* case 0:
+            mainChar = 'images/char-cat-girl.png';
+            break;
+        case 1 :
+            mainChar = 'images/char-horn-girl.png';
+            break;
+        case 2:
+            mainChar = 'images/char-pink-girl.png';
+            break;
+        case 3:
+            mainChar = 'images/char-princess-girl.png';
+            break; */
+        case 0:
+            mainChar = 'images/enemy-bug.png';
+            break;
+      /*  case 1:
+            mainChar = 'images/Heart.png';
+            break;*/
+        case 1:
+            mainChar = 'images/stone-block.png';
+            break;
+        case 2:
+            mainChar = 'images/char-boy.png';
+            break;
+    }
+    player = new Player(200, 425, mainChar);
+
+    /* Tried to implement this change character section, but I don't think the char-girl.png's are working for me? I get a weird error even if I use it directly at player.this.sprite.
+    I can get it to change to the stone-block .. but not the girls...
+       */
+}
 
 
 //initial instantiation
@@ -138,10 +178,9 @@ var allEnemies = [];
 //global variables for one instance of the game
 var tileSize = 100;
 var score = 0;
-
-var player = new Player(200, 425, 0);
-
-
+var counter = 0;
+var mainChar = 'images/char-boy.png';
+var player = new Player(200, 425, mainChar);
 
 
 // This listens for key presses and sends the keys to your
