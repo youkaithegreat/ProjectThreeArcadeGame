@@ -1,8 +1,12 @@
+var tileSize = 75;
+
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
@@ -24,12 +28,42 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(x, y){
 
+    this.x = x;
+    this.y = y;
+
+    this.sprite='images/char-boy.png';
+};
+
+Player.prototype.render = function(){
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.update = function(){
+
+};
+
+Player.prototype.handleInput = function(keyPush){
+
+
+    switch(keyPush){
+        case 'left': this.x-=tileSize; break;
+        case 'up' : this.y-=tileSize;break;
+        case 'right': this.x+=tileSize;break;
+        case 'down' : this.y+=tileSize;break;
+        default: break;
+    }
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var allEnemies = [];
+var player = new Player(200, 425);
+var enemy = new Enemy(200, 200, 0);
 
+allEnemies.push(enemy);
 
 
 // This listens for key presses and sends the keys to your
