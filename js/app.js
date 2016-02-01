@@ -139,24 +139,24 @@ function changeChar() {
     counter++;
     console.log(counter);
     switch (counter % 3) {
-       /* case 0:
-            mainChar = 'images/char-cat-girl.png';
-            break;
-        case 1 :
-            mainChar = 'images/char-horn-girl.png';
-            break;
-        case 2:
-            mainChar = 'images/char-pink-girl.png';
-            break;
-        case 3:
-            mainChar = 'images/char-princess-girl.png';
-            break; */
+        /* case 0:
+         mainChar = 'images/char-cat-girl.png';
+         break;
+         case 1 :
+         mainChar = 'images/char-horn-girl.png';
+         break;
+         case 2:
+         mainChar = 'images/char-pink-girl.png';
+         break;
+         case 3:
+         mainChar = 'images/char-princess-girl.png';
+         break; */
         case 0:
             mainChar = 'images/enemy-bug.png';
             break;
-      /*  case 1:
-            mainChar = 'images/Heart.png';
-            break;*/
+        /*  case 1:
+         mainChar = 'images/Heart.png';
+         break;*/
         case 1:
             mainChar = 'images/stone-block.png';
             break;
@@ -167,8 +167,8 @@ function changeChar() {
     player = new Player(200, 425, mainChar);
 
     /* Tried to implement this change character section, but I don't think the char-girl.png's are working for me? I get a weird error even if I use it directly at player.this.sprite.
-    I can get it to change to the stone-block .. but not the girls...
-       */
+     I can get it to change to the stone-block .. but not the girls...
+     */
 }
 
 
