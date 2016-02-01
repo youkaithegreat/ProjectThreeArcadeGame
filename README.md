@@ -1,6 +1,17 @@
-frontend-nanodegree-arcade-game
-===============================
+Front End Nanodegree - Frogger Game
 
-Students should use this [rubric](https://www.udacity.com/course/viewer/#!/c-nd001/l-2696458597/m-2687128535) for self-checking their submission.
+How to Play!
+Cross from the green side to the blue side with your arrow keys! Check your score below the game and have fun!
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+Every time you make it to the end you get 50 points!
+Every time you hit a bug you lose 25 points!
+Every time you go out of bounds you lose 5 points!
+
+The game showcases Javascript Object Oriented Programming and utilizes the engine.js for rendering.
+
+
+
+Resources used include:
+http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/
+Stack Overflow
+Javascript Documentation

@@ -1,7 +1,3 @@
-var tileSize = 100;
-var score = 0;
-
-
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -21,11 +17,12 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    if(this.x > 450){
+    //code to delete the current bug when it reaches the end of the map.
+    if (this.x > 450) {
         allEnemies.splice(allEnemies.indexOf(this), 1);
     }
     collisionDetect(this);
-    this.x += dt*this.speed;
+    this.x += dt * this.speed;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -33,101 +30,116 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var collisionDetect = function(enemyObj){
-    if((player.x <= enemyObj.x + 50 && player.x >= enemyObj.x - 50) && (player.y <= enemyObj.y +50 && player.y >= enemyObj.y - 50)){
+//collisionDetection checks if player has hit an enemy. The 50 px allows the player to get PRETTY close, but it's obvious when overlapping occurs the player "dies"
+var collisionDetect = function(enemyObj) {
+    if ((player.x <= enemyObj.x + 50 && player.x >= enemyObj.x - 50) && (player.y <= enemyObj.y + 50 && player.y >= enemyObj.y - 50)) {
         player = new Player(200, 425, 0);
         scoreDec(25);
         document.getElementById("score").innerHTML = "You got run over by a bug! -25!";
     }
 };
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-var Player = function(x, y){
 
+//Player class copied from enemy.
+var Player = function(x, y) {
 
     this.x = x;
     this.y = y;
 
-    this.sprite='images/char-boy.png';
+    this.sprite = 'images/char-boy.png';
 
 };
 
-Player.prototype.render = function(){
+//renders the player.
+Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.update = function(){
+//the update method for player, runs from engine.js checks for various occurences
+Player.prototype.update = function() {
     boundsDetect(this);
     checkWin(this);
     createEnemies();
 
 };
 
-var createEnemies = function(){
-    if(allEnemies.length < 4){
+//creates enemies if there are less than 4 on the map. Adds to the array
+var createEnemies = function() {
+    if (allEnemies.length < 4) {
         var rand = Math.random();
-        if(rand <.33){
+        if (rand < 0.33) {
             rand = 50;
-        }else if (rand > .66){
+        } else if (rand > 0.66) {
             rand = 140;
-        }else
-        {
+        } else {
             rand = 230;
         }
         var enemy = new Enemy(0, rand, tileSize);
 
         allEnemies.push(enemy);
     }
-
 };
 
-Player.prototype.handleInput = function(keyPush){
+
+//simple input. Used switch for convenience.
+Player.prototype.handleInput = function(keyPush) {
 
     document.getElementById("info").innerHTML = "Get to the Water!";
-    switch(keyPush){
-        case 'left': this.x-=tileSize; break;
-        case 'up' : this.y-=tileSize;break;
-        case 'right': this.x+=tileSize;break;
-        case 'down' : this.y+=tileSize;break;
-        default: break;
+    switch (keyPush) {
+        case 'left':
+            this.x -= tileSize;
+            break;
+        case 'up':
+            this.y -= tileSize;
+            break;
+        case 'right':
+            this.x += tileSize;
+            break;
+        case 'down':
+            this.y += tileSize;
+            break;
+        default:
+            break;
     }
 };
 
-var scoreInc = function(inc){
+//various score manipulators. Global "score" since it is a one instance game
+var scoreInc = function(inc) {
     score += inc;
-    document.getElementById("score").innerHTML = "Score: "+ score;
+    document.getElementById("score").innerHTML = "Score: " + score;
 };
 
-var scoreDec = function(dec){
-    score-=dec;
-    document.getElementById("score").innerHTML = "Score: "+ score;
+var scoreDec = function(dec) {
+    score -= dec;
+    document.getElementById("score").innerHTML = "Score: " + score;
 };
 
-
-var boundsDetect = function(varPlayer){
-    if(varPlayer.x > 495 || varPlayer.x < 0 || varPlayer.y > 500|| varPlayer.y <-100 ){
+//Detects if player is in bounds or not. Subtracts points, updates h3 on index.html
+var boundsDetect = function(varPlayer) {
+    if (varPlayer.x > 495 || varPlayer.x < 0 || varPlayer.y > 500 || varPlayer.y < -100) {
         document.getElementById("info").innerHTML = "Out of Bounds! - 5!";
         scoreDec(5);
         player = new Player(200, 425);
     }
 };
 
-var checkWin = function(varPlayer){
-  if(varPlayer.y >-100 && varPlayer.y < 0){
-      scoreInc(50);
-      document.getElementById("info").innerHTML = "You win! + 50!";
-      player = new Player(200, 425);
-  }
+//check if player wins, resets game.
+var checkWin = function(varPlayer) {
+    if (varPlayer.y > -100 && varPlayer.y < 0) {
+        scoreInc(50);
+        document.getElementById("info").innerHTML = "You win! + 50!";
+        player = new Player(200, 425);
+    }
 };
 
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+//initial instantiation
 var allEnemies = [];
-var player = new Player(200, 425, 0);
 
+//global variables for one instance of the game
+var tileSize = 100;
+var score = 0;
+
+var player = new Player(200, 425, 0);
 
 
 
