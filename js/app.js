@@ -18,10 +18,10 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     //code to delete the current bug when it reaches the end of the map.
-    if (this.x > 450) {
+    if (this.x > WIDTH) {
         allEnemies.splice(allEnemies.indexOf(this), 1);
     }
-    collisionDetect(this);
+    this.collisionDetect(this);
     this.x += dt * this.speed;
 };
 
@@ -31,11 +31,11 @@ Enemy.prototype.render = function() {
 };
 
 //collisionDetection checks if player has hit an enemy. The 50 px allows the player to get PRETTY close, but it's obvious when overlapping occurs the player "dies"
-var collisionDetect = function(enemyObj) {
+Enemy.prototype.collisionDetect = function(enemyObj) {
     if ((player.x <= enemyObj.x + 50 && player.x >= enemyObj.x - 50) && (player.y <= enemyObj.y + 50 && player.y >= enemyObj.y - 50)) {
         player = new Player(200, 425, mainChar);
+        document.getElementById("score").innerHTML = 'You got run over by a bug! -25!';
         scoreDec(25);
-        document.getElementById("score").innerHTML = "You got run over by a bug! -25!";
     }
 };
 
@@ -57,8 +57,8 @@ Player.prototype.render = function() {
 
 //the update method for player, runs from engine.js checks for various occurences
 Player.prototype.update = function() {
-    boundsDetect(this);
-    checkWin(this);
+
+    this.checkWin();
     createEnemies();
 
 };
@@ -74,7 +74,7 @@ var createEnemies = function() {
         } else {
             rand = 230;
         }
-        var enemy = new Enemy(0, rand, tileSize);
+        var enemy = new Enemy(0, rand, TILE_SIZE);
 
         allEnemies.push(enemy);
     }
@@ -84,19 +84,27 @@ var createEnemies = function() {
 //simple input. Used switch for convenience.
 Player.prototype.handleInput = function(keyPush) {
 
-    document.getElementById("info").innerHTML = "Get to the Water!";
+    document.getElementById("info").innerHTML = 'Get to the Water!';
     switch (keyPush) {
         case 'left':
-            this.x -= tileSize;
+            if (this.boundsDetect(this.x - TILE_SIZE, this.y)) {
+                this.x -= TILE_SIZE;
+            }
             break;
         case 'up':
-            this.y -= tileSize;
+            if (this.boundsDetect(this.x, this.y - TILE_SIZE)) {
+                this.y -= TILE_SIZE;
+            }
             break;
         case 'right':
-            this.x += tileSize;
+            if (this.boundsDetect(this.x + TILE_SIZE, this.y)) {
+                this.x += TILE_SIZE;
+            }
             break;
         case 'down':
-            this.y += tileSize;
+            if (this.boundsDetect(this.x, this.y + TILE_SIZE)) {
+                this.y += TILE_SIZE;
+            }
             break;
         default:
             break;
@@ -105,29 +113,28 @@ Player.prototype.handleInput = function(keyPush) {
 
 //various score manipulators. Global "score" since it is a one instance game
 var scoreInc = function(inc) {
-    score += inc;
-    document.getElementById("score").innerHTML = "Score: " + score;
+    this.score += inc;
+    document.getElementById("score").innerHTML = 'Score: ' + this.score;
 };
 
 var scoreDec = function(dec) {
-    score -= dec;
-    document.getElementById("score").innerHTML = "Score: " + score;
+    this.score -= dec;
+    document.getElementById("score").innerHTML = 'Score: ' + this.score;
 };
 
 //Detects if player is in bounds or not. Subtracts points, updates h3 on index.html
-var boundsDetect = function(varPlayer) {
-    if (varPlayer.x > 495 || varPlayer.x < 0 || varPlayer.y > 500 || varPlayer.y < -100) {
-        document.getElementById("info").innerHTML = "Out of Bounds! - 5!";
-        scoreDec(5);
-        player = new Player(200, 425, mainChar);
-    }
+Player.prototype.boundsDetect = function(x, y) {
+    if (x > 495 || x < 0 || y > 500 || y < -100) {
+        return false;
+    } else
+        return true;
 };
 
 //check if player wins, resets game.
-var checkWin = function(varPlayer) {
-    if (varPlayer.y > -100 && varPlayer.y < 0) {
+Player.prototype.checkWin = function() {
+    if (this.y > -100 && this.y < 0) {
         scoreInc(50);
-        document.getElementById("info").innerHTML = "You win! + 50!";
+        document.getElementById("info").innerHTML = 'You win! + 50!';
         player = new Player(200, 425, mainChar);
     }
 };
@@ -176,10 +183,12 @@ function changeChar() {
 var allEnemies = [];
 
 //global variables for one instance of the game
-var tileSize = 100;
+var TILE_SIZE = 100;
+var WIDTH = 450;
 var score = 0;
 var counter = 0;
 var mainChar = 'images/char-boy.png';
+
 var player = new Player(200, 425, mainChar);
 
 
