@@ -113,13 +113,13 @@ Player.prototype.handleInput = function(keyPush) {
 
 //various score manipulators. Global "score" since it is a one instance game
 var scoreInc = function(inc) {
-    this.score += inc;
-    document.getElementById("score").innerHTML = 'Score: ' + this.score;
+    score += inc;
+    document.getElementById("score").innerHTML = 'Score: ' + score;
 };
 
 var scoreDec = function(dec) {
-    this.score -= dec;
-    document.getElementById("score").innerHTML = 'Score: ' + this.score;
+    score -= dec;
+    document.getElementById("score").innerHTML = 'Score: ' + score;
 };
 
 //Detects if player is in bounds or not. Subtracts points, updates h3 on index.html
